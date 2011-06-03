@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema name="rubygems" version="0.1">
+  <types>
+    
+    <fieldType name="text" class="solr.TextField" omitNorms="false">
+      <analyzer>
+        <tokenizer class="solr.StandardTokenizerFactory"/>
+        <filter class="solr.StandardFilterFactory"/>
+        <filter class="solr.LowerCaseFilterFactory"/>
+        <filter class="solr.EnglishPorterFilterFactory"/>
+      </analyzer>
+    </fieldType>
+    
+    <fieldType name="text_ngram" class="solr.TextField" omitNorms="false">
+      <analyzer>
+        <tokenizer class="solr.StandardTokenizerFactory"/>
+        <filter class="solr.StandardFilterFactory"/>
+        <filter class="solr.LowerCaseFilterFactory"/>
+        <filter class="solr.EdgeNGramFilterFactory" minGramSize="3" maxGramSize="15" side="front"/>
+      </analyzer>
+    </fieldType>
+    
+    <fieldType name="name" class="solr.TextField" omitNorms="false">
+      <analyzer>
+        <tokenizer class="solr.PatternTokenizerFactory" pattern="-_" />
+        <filter class="solr.StandardFilterFactory"/>
+        <filter class="solr.LowerCaseFilterFactory"/>
+      </analyzer>
+    </fieldType>
+    
+    <fieldType name="name_ngram" class="solr.TextField" omitNorms="false">
+      <analyzer>
+        <tokenizer class="solr.PatternTokenizerFactory" pattern="-_" />
+        <filter class="solr.StandardFilterFactory"/>
+        <filter class="solr.LowerCaseFilterFactory"/>
+      </analyzer>
+    </fieldType>
+    
+    <fieldType name="boolean" class="solr.BoolField" omitNorms="true"/>
+    <fieldType name="date"    class="solr.DateField" omitNorms="true"/>
+    <fieldType name="rand"    class="solr.RandomSortField" omitNorms="true"/>
+    <fieldType name="sdouble" class="solr.SortableDoubleField" omitNorms="true"/>
+    <fieldType name="sfloat"  class="solr.SortableFloatField" omitNorms="true"/>
+    <fieldType name="sint"    class="solr.SortableIntField" omitNorms="true"/>
+    <fieldType name="slong"   class="solr.SortableLongField" omitNorms="true"/>
+    <fieldType name="string"  class="solr.StrField" omitNorms="true"/>
+    <fieldType name="tdate"   class="solr.TrieDateField" omitNorms="true"/>
+    <fieldType name="tdouble" class="solr.TrieDoubleField" omitNorms="true"/>
+    <fieldType name="tfloat"  class="solr.TrieFloatField" omitNorms="true"/>
+    <fieldType name="tint"    class="solr.TrieIntField" omitNorms="true"/>
+
+  </types>
+  
+  <fields>
+    
+    <field name="id"           type="string"     stored="true" />
+    
+    <field name="*_name"       type="name"       stored="true" />
+    <field name="*_name_ngram" type="name_ngram" stored="true" />
+    <field name="*_text"       type="text"       stored="true" />
+    <field name="*_text_ngram" type="text_ngram" stored="true" />
+    
+    <field name="*_bool"       type="boolean"    stored="true" />
+    <field name="*_date"       type="date"       stored="true" />
+    <field name="*_rand"       type="rand"       stored="true" />
+    <field name="*_sdouble"    type="sdouble"    stored="true" />
+    <field name="*_sfloat"     type="sfloat"     stored="true" />
+    <field name="*_sint"       type="sint"       stored="true" />
+    <field name="*_slong"      type="slong"      stored="true" />
+    <field name="*_string"     type="string"     stored="true" />
+    <field name="*_tdate"      type="tdate"      stored="true" />
+    <field name="*_tdouble"    type="tdouble"    stored="true" />
+    <field name="*_tfloat"     type="tfloat"     stored="true" />
+    <field name="*_tint"       type="tint"       stored="true" />
+
+  </fields>
+  
+  <uniqueKey>id</uniqueKey>
+  
+</schema>
