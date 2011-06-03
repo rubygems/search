@@ -1,14 +1,21 @@
 namespace :solr do
   
   task :run => :environment do
-    solr_port = {'test' => 8981, 'development' => 8982 }[Rails.env] || 8983
+    
+    solr_home  = Rails.root.join("solr")
+    data_dir   = Rails.root.join("solr/data", Rails.env)
+    solr_logs  = Rails.root.join("solr/conf/logging.properties")
+    jetty_logs = Rails.root.join("log")
+    port      = {"test" => 8981, "development" => 8982 }[Rails.env] || 8983
+    
     system %(
       cd vendor/solr &&
       java \
-        -Dsolr.solr.home=#{Rails.root.join('solr')} \
-        -Dsolr.data.dir=#{Rails.root.join('solr/data', Rails.env)} \
-        -Djava.util.logging.config.file=#{Rails.root.join('solr/conf/logging.properties')} \
-        -Djetty.port=#{solr_port} \
+        -Dsolr.solr.home=#{solr_home} \
+        -Dsolr.data.dir=#{data_dir} \
+        -Djava.util.logging.config.file=#{solr_logs} \
+        -Djetty.port=#{port} \
+        -Djetty.logs=#{jetty_logs} \
         -jar start.jar
     )
   end
