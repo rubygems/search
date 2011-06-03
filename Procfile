@@ -1,0 +1,1 @@
+solr: rake solr:run
