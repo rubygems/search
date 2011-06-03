@@ -53,25 +53,26 @@
   
   <fields>
     
-    <field name="id"           type="string"     stored="true" />
-    
-    <field name="*_name"       type="name"       stored="true" />
-    <field name="*_name_ngram" type="name_ngram" stored="true" />
-    <field name="*_text"       type="text"       stored="true" />
-    <field name="*_text_ngram" type="text_ngram" stored="true" />
-    
-    <field name="*_bool"       type="boolean"    stored="true" />
-    <field name="*_date"       type="date"       stored="true" />
-    <field name="*_rand"       type="rand"       stored="true" />
-    <field name="*_sdouble"    type="sdouble"    stored="true" />
-    <field name="*_sfloat"     type="sfloat"     stored="true" />
-    <field name="*_sint"       type="sint"       stored="true" />
-    <field name="*_slong"      type="slong"      stored="true" />
-    <field name="*_string"     type="string"     stored="true" />
-    <field name="*_tdate"      type="tdate"      stored="true" />
-    <field name="*_tdouble"    type="tdouble"    stored="true" />
-    <field name="*_tfloat"     type="tfloat"     stored="true" />
-    <field name="*_tint"       type="tint"       stored="true" />
+    <field name="id"           type="string"     indexed="true" stored="true" />
+    <field name="env"          type="string"     indexed="true" stored="true" />
+
+    <field name="*_name"       type="name"       indexed="true" stored="true" />
+    <field name="*_name_ngram" type="name_ngram" indexed="true" stored="true" />
+    <field name="*_text"       type="text"       indexed="true" stored="true" />
+    <field name="*_text_ngram" type="text_ngram" indexed="true" stored="true" />
+
+    <field name="*_bool"       type="boolean"    indexed="true" stored="true" />
+    <field name="*_date"       type="date"       indexed="true" stored="true" />
+    <field name="*_rand"       type="rand"       indexed="true" stored="true" />
+    <field name="*_sdouble"    type="sdouble"    indexed="true" stored="true" />
+    <field name="*_sfloat"     type="sfloat"     indexed="true" stored="true" />
+    <field name="*_sint"       type="sint"       indexed="true" stored="true" />
+    <field name="*_slong"      type="slong"      indexed="true" stored="true" />
+    <field name="*_string"     type="string"     indexed="true" stored="true" />
+    <field name="*_tdate"      type="tdate"      indexed="true" stored="true" />
+    <field name="*_tdouble"    type="tdouble"    indexed="true" stored="true" />
+    <field name="*_tfloat"     type="tfloat"     indexed="true" stored="true" />
+    <field name="*_tint"       type="tint"       indexed="true" stored="true" />
 
   </fields>
   

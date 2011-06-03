@@ -35,6 +35,10 @@ describe WebhookController do
     post :gem
 
     response.should be_success
+    
+    search = $solr.get 'select', :params => { :q => "*:*" }
+    search['response']['numFound'].should == 1
+    
   end
 
 end
