@@ -13,3 +13,7 @@ gem 'pjax-rails'
 
 # Everything else
 gem 'rsolr'
+
+group :development, :test do
+  gem 'rspec-rails'
+end
