@@ -1,6 +1,9 @@
-<%= form_tag '/search', :method => :get do %>
+<div class="info clearfix">
   
-  <%= search_field_tag :q, params[:q] %>
-  <%= submit_tag 'Search' %>
+  <div class="title">
+    <h2><%= link_to 'search', '/search' %></h2>
+    <h3>for <em><%= params[:q] %></em></h3>
+  </div>
   
-<% end %>
+  asdf
+</div>

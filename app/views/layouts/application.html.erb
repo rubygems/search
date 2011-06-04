@@ -2,13 +2,34 @@
 <html>
 <head>
   <title>SearchRubygems</title>
-  <%= stylesheet_link_tag    "application" %>
+  <%= stylesheet_link_tag    "http://rubygems.org/stylesheets/all.css" %>
   <%= javascript_include_tag "application" %>
   <%= csrf_meta_tags %>
 </head>
 <body>
 
-<%= yield %>
+
+<div class="container_12">
+  
+  <div class="prefix_1 grid_4 header">
+    <h1><a href="https://rubygems.org/" title="Home">RubyGems.org</a></h1>
+  </div>
+  
+  <div class="grid_6 suffix_1 nav">
+    <div id="nav-cap">
+      <div id="user-info"></div>
+      <ul id="signed-in"></ul>
+    </div>
+    <%= form_tag '/search', :method => :get, :id => 'main-search' do %>
+      <%= text_field_tag :q, params[:q], :id => 'query' %>
+      <%= submit_tag 'Search', :id => 'search_submit' %>
+    <% end %>
+  </div>
+  
+  <div class="prefix_1 grid_10 suffix_1 main" data-pjax-container>
+    <%= yield %>
+  </div>
+</div>
 
 </body>
 </html>
