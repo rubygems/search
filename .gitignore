@@ -5,3 +5,4 @@ tmp/
 .sass-cache/
 *.rbc
 solr/data
+vendor/bundle
