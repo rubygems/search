@@ -13,7 +13,7 @@ SearchRubygems::Application.configure do
   config.serve_static_assets = true
 
   # Compress both stylesheets and JavaScripts
-  config.assets.js_compressor  = :uglifier
+  config.assets.js_compressor  = false
   config.assets.css_compressor = :scss
 
   # Specifies the header that your server uses for sending files
