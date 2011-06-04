@@ -4,7 +4,6 @@
 
 require File.expand_path('../config/application', __FILE__)
 
-task :default do
-end
+task :default => "spec"
 
 SearchRubygems::Application.load_tasks
