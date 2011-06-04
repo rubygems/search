@@ -1,5 +1,9 @@
 class Rubygem
   
+  # TODO: Reusable DSL for configuring the index
+  # id :name
+  # index :name, as: %w(text name)  
+  
   def initialize(attributes={})
     $solr.add({
       __id: "#{attributes[:id]} #{Rails.env}",
@@ -9,7 +13,12 @@ class Rubygem
   
   def self.find(*args)
     if args.length == 1
-      $solr.get 'select', params: { q: "__id:[#{args.first} #{Rails.env}]" }
+      JSON.parse(
+        $solr.get 'select', params: {
+          q: "__id:[#{args.first} #{Rails.env}]",
+          wt: "json"
+        }
+      )
     end
   end
   
@@ -21,6 +30,17 @@ class Rubygem
   
   def save
     $solr.commit
+  end
+  
+  def self.search(params={})
+    JSON.parse(
+      $solr.get(
+        "select", params: {
+          defType: "dismax",
+          wt: "json"
+        }.merge(params)
+      )
+    )
   end
   
 end
