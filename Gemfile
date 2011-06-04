@@ -15,7 +15,8 @@ gem 'pjax-rails'
 gem 'rsolr'
 
 group :development, :test do
-  gem 'rspec-rails'
-  gem 'guard-rspec'
+  gem 'foreman'
   gem 'growl'
+  gem 'guard-rspec'
+  gem 'rspec-rails'
 end
