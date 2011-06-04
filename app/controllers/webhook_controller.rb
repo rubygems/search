@@ -2,8 +2,7 @@ class WebhookController < ApplicationController
   
   def gem
     Rubygem.create(
-      id:  "#{json['name']} #{Rails.env}",
-      env: Rails.env
+      id: json['name']
     )
     head 200
   end

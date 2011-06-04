@@ -24,4 +24,15 @@ RSpec.configure do |config|
   # examples within a transaction, remove the following line or assign false
   # instead of true.
   # config.use_transactional_fixtures = true
+  
+  config.before :all do
+    $solr.delete_by_query '*:*'
+    $solr.commit
+  end
+  
+  config.after :each do
+    $solr.delete_by_query '*:*'
+    $solr.commit
+  end
+
 end
