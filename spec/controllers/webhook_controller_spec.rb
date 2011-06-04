@@ -2,6 +2,11 @@ require 'spec_helper'
 
 describe WebhookController do
 
+  after :each do
+    $solr.delete_by_query 'env:test'
+    $solr.commit
+  end
+
   it "should receive a payload" do
     request.env["HTTP_ACCEPT"] = "application/json"
     request.env["RAW_POST_DATA"] = {
