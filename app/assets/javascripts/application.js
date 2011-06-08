@@ -6,6 +6,6 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require pjax
+//= require jquery.pjax
 //= require pjax_forms
 //= require_tree .

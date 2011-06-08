@@ -9,7 +9,7 @@ gem 'sass'
 # gem 'uglifier'
 
 gem 'jquery-rails'
-gem 'pjax-rails'
+gem 'pjax-rails' # just for the controller stuff for now
 
 # Everything else
 gem 'rsolr'
