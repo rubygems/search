@@ -1,7 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>SearchRubygems</title>
+  <title>
+    RubyGems.org | Search
+    <% if params[:q] %>for &ldquo;<%= params[:q] %>&rdquo;<% end %>
+  </title>
   <% if Rails.env.production? %>
     <%= stylesheet_link_tag    "http://rubygems.org/stylesheets/all.css" %>
   <% else %>
