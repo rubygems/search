@@ -17,8 +17,19 @@
   
   <div class="grid_6 suffix_1 nav">
     <div id="nav-cap">
-      <div id="user-info"></div>
-      <ul id="signed-in"></ul>
+      <div id="nav">
+        <ul id="signed_out">
+          <li id="all-gems">
+            <a href="https://rubygems.org/gems">all gems</a>
+          </li>
+          <li id="sign-in">
+            <a href="https://rubygems.org/sessions/new">sign in</a>
+          </li>
+          <li id="sign-up">
+            <a href="https://rubygems.org/users/new">sign up</a>
+          </li>
+        </ul>
+      </div>
     </div>
     <%= form_tag '/search', :method => :get, :id => 'main-search' do %>
       <%= text_field_tag :q, params[:q], :id => 'query' %>
