@@ -5,5 +5,21 @@
     <h3>for <em><%= params[:q] %></em></h3>
   </div>
   
-  asdf
+  <p>Exact match</p>
+  
+  <div class="gems border">
+    <ol>
+      <%= render 'rubygem' %>
+    </ol>
+  </div>
+  
+  <p class="entries">Displaying gems 1&ndash;30 of 2,514 total.</p>
+
+  <div class="gems border">
+    <ol>
+      <%= render 'rubygem' %>
+      <%= render 'rubygem' %>
+    </ol>
+  </div>
+
 </div>
