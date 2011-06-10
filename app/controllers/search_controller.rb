@@ -5,9 +5,10 @@ class SearchController < ApplicationController
       @search = Rubygem.search(
         q: params[:q]
       )
-      @docs  = @search['response']['docs']
-      @exact = @docs.find{ |d| d['name'] == params[:q] }
     end
+    @search ||= {'response' => {}, 'response' => {'docs' => []}}
+    @docs  = @search['response']['docs']
+    @exact = @docs.find{ |d| d['name'] == params[:q] }
   end
 
 end
