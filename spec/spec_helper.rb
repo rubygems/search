@@ -30,7 +30,7 @@ RSpec.configure do |config|
     $solr.commit
   end
   
-  config.after :each do
+  config.after :all do
     $solr.delete_by_query '*:*'
     $solr.commit
   end

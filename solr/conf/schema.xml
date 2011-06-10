@@ -67,14 +67,14 @@
     -->
 
     <!-- Domain-specific text-based fields -->
-    <field name="*_name"       type="name"       indexed="true" stored="true" multiValued="true" />
-    <field name="*_name_ngram" type="name_ngram" indexed="true" stored="true" multiValued="true" />
-    <field name="authors"      type="text"       indexed="true" stored="true" multiValued="true" />
-    <field name="info"         type="text"       indexed="true" stored="true" multiValued="true" />
-    <field name="name"         type="name"       indexed="true" stored="true" multiValued="true" />
+    <dynamicField name="*_name"       type="name"       indexed="true" stored="true" multiValued="true" />
+    <dynamicField name="*_name_ngram" type="name_ngram" indexed="true" stored="true" multiValued="true" />
+    <field name="authors"             type="text"       indexed="true" stored="true" multiValued="true" />
+    <field name="info"                type="text"       indexed="true" stored="true" multiValued="true" />
+    <field name="name"                type="name"       indexed="true" stored="true" multiValued="true" />
 
     <!-- Domain-specific scalar fields -->
-    <field name="*_uri"             type="string" indexed="true" stored="true" multiValued="true" />
+    <dynamicField name="*_uri"      type="string" indexed="true" stored="true" multiValued="true" />
     <field name="downloads"         type="sint"   indexed="true" stored="true" multiValued="true" />
     <field name="version"           type="string" indexed="true" stored="true" multiValued="true" />
     <field name="version_downloads" type="sint"   indexed="true" stored="true" multiValued="true" />
@@ -85,22 +85,22 @@
     -->
 
     <!-- Generic text value dynamic fields -->
-    <field name="*_text"       type="text"       indexed="true" stored="true" multiValued="true" />
-    <field name="*_text_ngram" type="text_ngram" indexed="true" stored="true" multiValued="true" />
+    <dynamicField name="*_text"       type="text"       indexed="true" stored="true" multiValued="true" />
+    <dynamicField name="*_text_ngram" type="text_ngram" indexed="true" stored="true" multiValued="true" />
 
     <!-- Generic scalar value dynamic fields -->
-    <field name="*_bool"       type="boolean"    indexed="true" stored="true" multiValued="true" />
-    <field name="*_date"       type="date"       indexed="true" stored="true" multiValued="true" />
-    <field name="*_rand"       type="rand"       indexed="true" stored="true" multiValued="true" />
-    <field name="*_sdouble"    type="sdouble"    indexed="true" stored="true" multiValued="true" />
-    <field name="*_sfloat"     type="sfloat"     indexed="true" stored="true" multiValued="true" />
-    <field name="*_sint"       type="sint"       indexed="true" stored="true" multiValued="true" />
-    <field name="*_slong"      type="slong"      indexed="true" stored="true" multiValued="true" />
-    <field name="*_string"     type="string"     indexed="true" stored="true" multiValued="true" />
-    <field name="*_tdate"      type="tdate"      indexed="true" stored="true" multiValued="true" />
-    <field name="*_tdouble"    type="tdouble"    indexed="true" stored="true" multiValued="true" />
-    <field name="*_tfloat"     type="tfloat"     indexed="true" stored="true" multiValued="true" />
-    <field name="*_tint"       type="tint"       indexed="true" stored="true" multiValued="true" />
+    <dynamicField name="*_bool"       type="boolean"    indexed="true" stored="true" multiValued="true" />
+    <dynamicField name="*_date"       type="date"       indexed="true" stored="true" multiValued="true" />
+    <dynamicField name="*_rand"       type="rand"       indexed="true" stored="true" multiValued="true" />
+    <dynamicField name="*_sdouble"    type="sdouble"    indexed="true" stored="true" multiValued="false" />
+    <dynamicField name="*_sfloat"     type="sfloat"     indexed="true" stored="true" multiValued="false" />
+    <dynamicField name="*_sint"       type="sint"       indexed="true" stored="true" multiValued="false" />
+    <dynamicField name="*_slong"      type="slong"      indexed="true" stored="true" multiValued="false" />
+    <dynamicField name="*_string"     type="string"     indexed="true" stored="true" multiValued="true" />
+    <dynamicField name="*_tdate"      type="tdate"      indexed="true" stored="true" multiValued="true" />
+    <dynamicField name="*_tdouble"    type="tdouble"    indexed="true" stored="true" multiValued="true" />
+    <dynamicField name="*_tfloat"     type="tfloat"     indexed="true" stored="true" multiValued="true" />
+    <dynamicField name="*_tint"       type="tint"       indexed="true" stored="true" multiValued="true" />
 
   </fields>
   

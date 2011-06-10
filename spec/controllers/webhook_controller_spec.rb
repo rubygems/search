@@ -1,8 +1,8 @@
 require 'spec_helper'
 
 describe WebhookController do
-
-  it "should receive a payload" do
+  
+  def post_gem
     request.env["HTTP_ACCEPT"] = "application/json"
     request.env["RAW_POST_DATA"] = {
       "name" => "rails",
@@ -31,14 +31,14 @@ describe WebhookController do
         "development" => [ ]
       }
     }.to_json
-
     post :gem
+  end
 
+  it "should receive a payload" do
+    post_gem
     response.should be_success
-    
     search = $solr.get 'select', :params => { :q => "*:*" }
     search['response']['numFound'].should == 1
-    
   end
 
 end
