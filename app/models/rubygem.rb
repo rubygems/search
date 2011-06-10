@@ -11,8 +11,10 @@ class Rubygem #< Solr::Document
 
   def self.index(name, options={})
     name = name.to_sym
+    type = name == :id ? nil : (options.delete(:as) || :text).to_sym
     (@@fields||={})[name] = {
-      as: name == :id ? nil : (options.delete(:as) || :text).to_sym
+      as: type,
+      solr_field_name: [name, type].compact.join("_").to_sym
     }.merge(options)
     define_method "#{name}=" do |value|
       @attributes[name] = value
@@ -58,26 +60,16 @@ class Rubygem #< Solr::Document
     solr_doc[:__env] = Rails.env.to_s
     @@fields.each do |name, options|
       if @attributes[name] # || options[:proc]
-        if name == :id
-          solr_field_name = :id
-        else
-          solr_field_type = options[:as] || 'text'
-          solr_field_name = "#{name}_#{solr_field_type}"
-        end
-        solr_doc[solr_field_name.to_sym] = attributes[name]
+        solr_doc[options[:solr_field_name]] = attributes[name]
       end
     end
     solr_doc
   end
   
-  index :authors
-  index :downloads
-  index :id
-  index :info
-  index :version_downloads
-
   string :version
-  text :name
+
+  text :info
+  text :authors
   
   string :project_uri
   string :gem_uri
@@ -88,9 +80,13 @@ class Rubygem #< Solr::Document
   string :source_code_uri
   string :bug_tracker_uri
   
+  name :name, boost: 2
   name :runtime_dependencies
   name :development_dependencies
   
+  sint :downloads
+  sint :version_downloads
+
   def self.find(*args)
     if args.length == 1
       JSON.parse(
@@ -118,14 +114,20 @@ class Rubygem #< Solr::Document
     $solr.commit
   end
   
+  def self.dismax_qf
+    @@fields.collect do |name, opts|
+      [ opts[:solr_field_name],
+        opts[:boost] ].compact.join("^")
+    end
+  end
+  
   def self.search(params={})
     JSON.parse(
-      $solr.get(
-        "select", params: {
-          defType: "dismax",
-          wt: "json"
-        }.merge(params)
-      )
+      $solr.get("select", params: {
+        defType: "dismax",
+        wt: "json",
+        qf: dismax_qf
+      }.merge(params))
     )
   end
   

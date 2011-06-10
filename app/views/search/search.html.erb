@@ -5,21 +5,44 @@
     <h3>for <em><%= params[:q] %></em></h3>
   </div>
   
-  <p>Exact match</p>
+  <% if @exact %>
+    <p>Exact match</p>
+    <div class="gems border">
+      <ol>
+        <%= render 'rubygem' %>
+      </ol>
+    </div>
+  <% end %>
   
-  <div class="gems border">
-    <ol>
-      <%= render 'rubygem' %>
-    </ol>
-  </div>
-  
-  <p class="entries">Displaying gems 1&ndash;30 of 2,514 total.</p>
+  <p class="entries">
+    Displaying gems
+    1&ndash;<%= @docs.length %>
+    of
+    <%= number_with_delimiter @search['response']['numFound'] %> total.
+  </p>
 
   <div class="gems border">
     <ol>
-      <%= render 'rubygem' %>
-      <%= render 'rubygem' %>
+      <% @docs.each do |doc| %>
+      <li>
+        <div class="downloads">
+          <strong>
+            <%= doc['downloads_text'].try(:first) || doc['downloads_sint'] %>
+          </strong> downloads
+        </div>
+        <a href="https://rubygems.org/gems/<%= doc['id'] %>">
+          <strong>
+            <%= doc['name_text'].try(:first) %>
+            <%= doc['name_name'].try(:first) %>
+            (<%= doc['version_string'].try(:first) %>)
+          </strong>
+          <%= doc['info_text'].try(:first) %>
+        </a>
+      </li>
+      <% end %>
     </ol>
   </div>
+
+  <pre><%= @search.to_yaml %></pre>
 
 </div>
