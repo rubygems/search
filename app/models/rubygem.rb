@@ -1,5 +1,14 @@
 class Rubygem #< Solr::Document
 
+  attr_accessor :attributes
+  
+  def initialize(attributes={})
+    @attributes = {}
+    attributes.each do |name, val|
+      send "#{name}=", val
+    end
+  end
+
   def self.index(name, options={})
     name = name.to_sym
     (@@fields||={})[name] = {
@@ -10,10 +19,11 @@ class Rubygem #< Solr::Document
     end
   end
 
+  DYNAMIC_FIELD = /dynamicField name="\*_([^"]+)".*type="([^"]+)"/
+  FIELD         = /field name="([^_][^"]*)".*type="([^"]+)"/
+
   class << self
     Rails.root.join('solr/conf/schema.xml').open do |schema|
-      DYNAMIC_FIELD = /dynamicField name="\*_([^"]+)".*type="([^"]+)"/
-      FIELD         = /field name="([^_][^"]*)".*type="([^"]+)"/
       @@fields ||= {}
       schema.readlines.each do |line|
         case line
@@ -30,30 +40,16 @@ class Rubygem #< Solr::Document
   end
   
   Rails.root.join('solr/conf/schema.xml').open do |schema|
-    FIELD         = /field name="([^_][^"]*)".*type="([^"]+)"/
     @@fields ||= {}
     schema.readlines.each do |line|
       case line
       when FIELD
         # define an instance getter and setter for this specific field
-        puts "Field: #{$1} (#{$2})"
         field_name = $1
         field_type = $2
         index field_name, as: field_type
       end
     end
-  end
-  
-  
-  text :foo
-  puts @@fields.inspect
-  
-  # TODO: Reusable DSL for configuring the index
-  # id :name
-  # index :name, as: %w(text name)  
-  
-  def assign_attribute(name, value)
-    @attributes[name] = value
   end
   
   def to_solr
@@ -94,15 +90,6 @@ class Rubygem #< Solr::Document
   
   name :runtime_dependencies
   name :development_dependencies
-  
-  attr_accessor :attributes
-  
-  def initialize(attributes={})
-    @attributes = {}
-    attributes.each do |name, val|
-      send "#{name}=", val
-    end
-  end
   
   def self.find(*args)
     if args.length == 1
