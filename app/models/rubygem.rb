@@ -1,13 +1,5 @@
 class Rubygem #< Solr::Document
-  
-  # TODO: Reusable DSL for configuring the index
-  # id :name
-  # index :name, as: %w(text name)  
-  
-  def assign_attribute(name, value)
-    @attributes[name] = value
-  end
-  
+
   def self.index(name, options={})
     name = name.to_sym
     (@@fields||={})[name] = {
@@ -16,6 +8,52 @@ class Rubygem #< Solr::Document
     define_method "#{name}=" do |value|
       @attributes[name] = value
     end
+  end
+
+  class << self
+    Rails.root.join('solr/conf/schema.xml').open do |schema|
+      DYNAMIC_FIELD = /dynamicField name="\*_([^"]+)".*type="([^"]+)"/
+      FIELD         = /field name="([^_][^"]*)".*type="([^"]+)"/
+      @@fields ||= {}
+      schema.readlines.each do |line|
+        case line
+        when DYNAMIC_FIELD
+          # define a class method to specify other fields of this type
+          field_suffix = $1
+          field_type = $2
+          define_method field_suffix do |name, options={}|
+            index name, {as: field_suffix}
+          end
+        end
+      end
+    end
+  end
+  
+  Rails.root.join('solr/conf/schema.xml').open do |schema|
+    FIELD         = /field name="([^_][^"]*)".*type="([^"]+)"/
+    @@fields ||= {}
+    schema.readlines.each do |line|
+      case line
+      when FIELD
+        # define an instance getter and setter for this specific field
+        puts "Field: #{$1} (#{$2})"
+        field_name = $1
+        field_type = $2
+        index field_name, as: field_type
+      end
+    end
+  end
+  
+  
+  text :foo
+  puts @@fields.inspect
+  
+  # TODO: Reusable DSL for configuring the index
+  # id :name
+  # index :name, as: %w(text name)  
+  
+  def assign_attribute(name, value)
+    @attributes[name] = value
   end
   
   def to_solr
@@ -36,28 +74,29 @@ class Rubygem #< Solr::Document
     solr_doc
   end
   
-  index :id
-  index :name, as: 'text'
-  index :info
-  index :version, as: 'string'
-  index :version_downloads
   index :authors
   index :downloads
+  index :id
+  index :info
+  index :version_downloads
 
-  index :project_uri,       as: 'string'
-  index :gem_uri,           as: 'string'
-  index :homepage_uri,      as: 'string'
-  index :wiki_uri,          as: 'string'
-  index :documentation_uri, as: 'string'
-  index :mailing_list_uri,  as: 'string'
-  index :source_code_uri,   as: 'string'
-  index :bug_tracker_uri,   as: 'string'
-
-  index :runtime_dependencies,     as: 'name'
-  index :development_dependencies, as: 'name'
+  string :version
+  text :name
+  
+  string :project_uri
+  string :gem_uri
+  string :homepage_uri
+  string :wiki_uri
+  string :documentation_uri
+  string :mailing_list_uri
+  string :source_code_uri
+  string :bug_tracker_uri
+  
+  name :runtime_dependencies
+  name :development_dependencies
   
   attr_accessor :attributes
-
+  
   def initialize(attributes={})
     @attributes = {}
     attributes.each do |name, val|
