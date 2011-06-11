@@ -1,9 +1,14 @@
 <li>
   <div class="downloads">
-    <strong>4,126,568</strong> downloads
+    <strong>
+      <%= rubygem.downloads %>
+    </strong> downloads
   </div>
-  <a href="https://rubygems.org/gems/rails">
-    <strong>rails (3.0.8)</strong>
-    Ruby on Rails is a full-stack web framework optimized for programmer happiness and sustainable&hellip;
+  <a href="https://rubygems.org/gems/<%= rubygem.name.first %>">
+    <strong>
+      <%= rubygem.name.first %>
+      (<%= rubygem.version.first %>)
+    </strong>
+    <%= rubygem.info.try(:first) %>
   </a>
 </li>

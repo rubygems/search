@@ -9,7 +9,10 @@
   
   <div class="title">
     <h2><%= link_to 'search', '/search' %></h2>
-    <h3>for <em><%= params[:q] %></em></h3>
+    <h3>
+      for <em><%= params[:q] %></em>
+      <small id="qtime">in <%= @search['responseHeader']['QTime'] %> ms</small>
+    </h3>
   </div>
   
   <% if @exact %>
@@ -31,25 +34,11 @@
   <div class="gems border">
     <ol>
       <% @docs.each do |doc| %>
-      <li>
-        <div class="downloads">
-          <strong>
-            <%= doc['downloads_text'].try(:first) || doc['downloads_sint'] %>
-          </strong> downloads
-        </div>
-        <a href="https://rubygems.org/gems/<%= doc['id'] %>">
-          <strong>
-            <%= doc['name_text'].try(:first) %>
-            <%= doc['name_name'].try(:first) %>
-            (<%= doc['version_string'].try(:first) %>)
-          </strong>
-          <%= doc['info_text'].try(:first) %>
-        </a>
-      </li>
+        <%= render 'rubygem', rubygem: doc %>
       <% end %>
     </ol>
   </div>
 
-  <pre><%= @search.to_yaml %></pre>
+  <pre><%#= @search.to_yaml %></pre>
 
 </div>

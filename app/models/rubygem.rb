@@ -12,12 +12,19 @@ class Rubygem #< Solr::Document
   def self.index(name, options={})
     name = name.to_sym
     type = name == :id ? nil : (options.delete(:as) || :text).to_sym
+    solr_field_name = [name, type].compact.join("_").to_sym
     (@@fields||={})[name] = {
       as: type,
-      solr_field_name: [name, type].compact.join("_").to_sym
+      solr_field_name: solr_field_name
     }.merge(options)
     define_method "#{name}=" do |value|
       @attributes[name] = value
+    end
+    define_method "#{solr_field_name}=" do |value|
+      @attributes[name] = value
+    end
+    define_method "#{name}" do
+      @attributes[name]
     end
   end
 
@@ -66,19 +73,18 @@ class Rubygem #< Solr::Document
     solr_doc
   end
   
-  string :version
-
   text :info
   text :authors
   
-  string :project_uri
+  string :bug_tracker_uri
+  string :documentation_uri
   string :gem_uri
   string :homepage_uri
-  string :wiki_uri
-  string :documentation_uri
   string :mailing_list_uri
+  string :project_uri
   string :source_code_uri
-  string :bug_tracker_uri
+  string :version
+  string :wiki_uri
   
   name :name, boost: 2
   name :runtime_dependencies
@@ -89,12 +95,16 @@ class Rubygem #< Solr::Document
 
   def self.find(*args)
     if args.length == 1
-      JSON.parse(
+      json = JSON.parse(
         $solr.get 'select', params: {
           q: "__id:[#{args.first} #{Rails.env}]",
           wt: "json"
         }
       )
+      json ||= {'response' => {'docs' => []}}
+      json.collect do |doc|
+        new(doc)
+      end
     end
   end
   
@@ -122,13 +132,19 @@ class Rubygem #< Solr::Document
   end
   
   def self.search(params={})
-    JSON.parse(
+    json = JSON.parse(
       $solr.get("select", params: {
         defType: "dismax",
         wt: "json",
         qf: dismax_qf
       }.merge(params))
     )
+    json ||= {'response' => {'docs' => []}}
+    json['response']['docs'].collect! do |doc|
+      d = doc.dup.delete_if{|k,v| %w(__id __env).include?(k) }
+      new(d)
+    end
+    json
   end
   
 end
