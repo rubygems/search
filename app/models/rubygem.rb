@@ -20,9 +20,7 @@ class Rubygem #< Solr::Document
     define_method "#{name}=" do |value|
       @attributes[name] = value
     end
-    define_method "#{solr_field_name}=" do |value|
-      @attributes[name] = value
-    end
+    alias_method "#{solr_field_name}=", "#{name}="
     define_method "#{name}" do
       @attributes[name]
     end
