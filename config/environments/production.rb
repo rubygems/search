@@ -9,12 +9,10 @@ SearchRubygems::Application.configure do
   config.action_controller.perform_caching = true
 
   # Disable Rails's static asset server (Apache or nginx will already do this)
-  # Not on heroku bros
   config.serve_static_assets = true
 
-  # Compress both stylesheets and JavaScripts
-  config.assets.js_compressor  = false
-  config.assets.css_compressor = :scss
+  # Compress JavaScripts and CSS
+  config.assets.compress = true
 
   # Specifies the header that your server uses for sending files
   # (comment out if your front-end server doesn't support this)

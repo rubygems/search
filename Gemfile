@@ -7,8 +7,8 @@ gem 'unicorn'
 # Asset template engines
 gem 'json'
 gem 'sass'
-# gem 'coffee-script'
-# gem 'uglifier'
+gem 'coffee-script'
+gem 'uglifier'
 
 gem 'jquery-rails'
 gem 'pjax-rails' # just for the controller stuff for now

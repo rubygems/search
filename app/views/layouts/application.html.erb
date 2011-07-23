@@ -5,11 +5,7 @@
     RubyGems.org | Search
     <% if params[:q] %>for &ldquo;<%= params[:q] %>&rdquo;<% end %>
   </title>
-  <% if Rails.env.production? %>
-    <%= stylesheet_link_tag    "http://rubygems.org/stylesheets/all.css" %>
-  <% else %>
-    <%= stylesheet_link_tag    "application" %>
-  <% end %>
+  <%= stylesheet_link_tag    "application" %>
   <%= javascript_include_tag "application" %>
   <%= csrf_meta_tags %>
 </head>

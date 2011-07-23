@@ -1,6 +1,6 @@
 SearchRubygems::Application.routes.draw do
 
-  root :to => 'search#search'
+  root :to => 'search#search', :q => ''
   get '/search' => 'search#search'
   
   post '/webhook/gem' => 'webhook#gem'

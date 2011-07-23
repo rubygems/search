@@ -6,7 +6,7 @@ class SearchController < ApplicationController
     
     if params[:q]
       @search = Rubygem.search(
-        q: params[:q]
+        q: params[:q].present? ? params[:q] : '*:*'
       )
     end
     @search ||= {'response' => {}, 'response' => {'docs' => []}}
