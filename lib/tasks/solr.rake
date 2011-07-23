@@ -6,7 +6,7 @@ namespace :solr do
     data_dir   = Rails.root.join("solr/data", Rails.env)
     solr_logs  = Rails.root.join("solr/conf/logging.properties")
     jetty_logs = Rails.root.join("log")
-    port       = 8982
+    port       = Rails.env.test? ? 8981 : 8982
     
     system %(
       cd vendor/solr &&

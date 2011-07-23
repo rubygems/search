@@ -1,10 +1,11 @@
 class WebhookController < ApplicationController
   
   def gem
-    Rubygem.create({
-      id: json['name']
-    }.merge(json))
-    head 200
+    if Rubygem.create(json)
+      head 200
+    else
+      head 400
+    end
   end
   
 protected

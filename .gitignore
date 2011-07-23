@@ -6,3 +6,4 @@ tmp/
 *.rbc
 solr/data
 vendor/bundle
+log/*.lck

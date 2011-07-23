@@ -14,12 +14,13 @@ gem 'jquery-rails'
 gem 'pjax-rails' # just for the controller stuff for now
 
 # Everything else
-gem 'rsolr'
+gem 'sunspot_rails', :git => 'git://github.com/nz/sunspot'
 
 group :development, :test do
   gem 'foreman'
   gem 'growl'
   gem 'guard-rspec'
+  gem 'rb-fsevent'
   gem 'rspec-rails'
   gem 'sqlite3'
 end

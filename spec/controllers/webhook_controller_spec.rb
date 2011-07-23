@@ -4,6 +4,7 @@ describe WebhookController do
   
   def post_gem
     request.env["HTTP_ACCEPT"] = "application/json"
+    
     request.env["RAW_POST_DATA"] = {
       "name" => "rails",
       "info" => "Rails is a framework for building web-application using CGI, FCGI, mod_ruby,
@@ -31,14 +32,14 @@ describe WebhookController do
         "development" => [ ]
       }
     }.to_json
+    
     post :gem
   end
 
   it "should receive a payload" do
     post_gem
     response.should be_success
-    search = $solr.get 'select', :params => { :q => "*:*" }
-    search['response']['numFound'].should == 1
+    Rubygem.search(:q => 'rails').first.name.should == "rails"
   end
 
 end

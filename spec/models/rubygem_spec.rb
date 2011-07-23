@@ -2,61 +2,47 @@ require 'spec_helper'
 
 describe Rubygem do
   
-  describe "#create" do
+  let :rubygem_payload do
+    {
+      dependencies: {
+        runtime: [
+          { name: "nokogiri", requirements: ">= 0"},
+          { name: "sunspot", requirements: "= 1.2.1" } ],
+        development: [
+          { name: "rspec", requirements: "~> 1.2" },
+          { name: "rspec-rails", requirements: "~> 1.2" }]
+      },
+      name: "sunspot_rails",
+      downloads: 0,
+      info: "Sunspot::Rails is an extension to the Sunspot library for Solr search.\nSunspot::Rails adds integration between Sunspot and ActiveRecord, including\ndefining search and indexing related methods on ActiveRecord models themselves,\nrunning a Sunspot-compatible Solr instance for development and test\nenvironments, and automatically commit Solr index changes at the end of each\nRails request.\n",
+      version_downloads: 0,
+      version: "1.2.1",
+      homepage_uri: "http://github.com/outoftime/sunspot_rails",
+      bug_tracker_uri: nil,
+      source_code_uri: nil,
+      gem_uri: "http://localhost/gems/sunspot_rails-1.2.1.gem",
+      project_uri: "http://localhost/gems/sunspot_rails",
+      authors: "Mat Brown, Peer Allan, Michael Moen, Benjamin Krause, Adam Salter, Brandon Keepers, Paul Canavese, John Eberly, Gert Thiel",
+      mailing_list_uri: nil,
+      documentation_uri: nil,
+      wiki_uri: nil
+    }
+  end
+  
+  describe "#search" do
     before :all do
-      Rubygem.create({ id: "foobar" })
-    end
-    
-    after :all do
-      $solr.delete_by_query '*:*'
-      $solr.commit
-    end
-    
-    it "should append the environment to its internal id" do
-      search = $solr.get 'select', params: { q: '__id:[foobar test]' }
-      search['response']['numFound'].should == 1
+      Rubygem.create(rubygem_payload)
+      Sunspot.commit
     end
 
-    it "should set an environment field" do
-      search = $solr.get 'select', params: { q: 'id:foobar', fq: "__env:test" }
-      search['response']['numFound'].should == 1
-    end
-  end
-  
-  describe "#find" do
-    before :all do
-      Rubygem.create({ id: 'foobar' })
-    end
-
     after :all do
-      $solr.delete_by_query '*:*'
-      $solr.commit
+      Sunspot.remove_all
+      Sunspot.commit
     end
     
-    it "should find a document by its id" do
-      Rubygem.find('foobar').should_not be_blank
+    it "should find documents with a :q param" do
+      Rubygem.search(:q => 'sunspot').should_not be_blank
     end
   end
-  
-  describe "#to_solr" do
-    before :all do
-      @rubygem = Rubygem.new({
-        id: 'rails',
-        name: 'rails',
-        version: '1.2.3'
-      })
-    end
-    it "should contain all of the defined fields" do
-      solr_doc = @rubygem.to_solr
-      solr_doc[:id].should == 'rails'
-      solr_doc[:name_text].should == 'rails'
-      solr_doc[:version_string].should == '1.2.3'
-    end
-    it "should not contain nil valued fields (or convince nz otherwise)" do
-      @rubygem.to_solr.keys.should_not include(:bug_tracker_uri_uri)
-      @rubygem.to_solr.keys.should_not include(:bug_tracker_uri_string)
-    end
-  end
-  
   
 end
