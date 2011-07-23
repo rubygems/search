@@ -21,4 +21,9 @@ group :development, :test do
   gem 'growl'
   gem 'guard-rspec'
   gem 'rspec-rails'
+  gem 'sqlite3'
+end
+
+group :production do
+  gem 'pg'
 end
