@@ -11,7 +11,7 @@
     <h2><%= link_to 'search', '/search' %></h2>
     <h3>
       for <em><%= params[:q] %></em>
-      <small id="qtime">in <%= @search['responseHeader']['QTime'] %> ms</small>
+      <!-- <small id="qtime">in <%#= @search['responseHeader']['QTime'] %> ms</small> -->
     </h3>
   </div>
   
@@ -19,25 +19,26 @@
     <p>Exact match</p>
     <div class="gems border">
       <ol>
-        <%= render 'rubygem' %>
+        <%= render @exact %>
       </ol>
     </div>
   <% end %>
   
-  <p class="entries">
-    Displaying gems
-    1&ndash;<%= @docs.length %>
-    of
-    <%= number_with_delimiter @search['response']['numFound'] %> total.
-  </p>
+  <% if @docs.present? %>
+    <p class="entries">
+      Displaying gems
+      1&ndash;<%= @docs.length %>
+      <!-- of <%#= number_with_delimiter @search['response']['numFound'] %> total. -->
+    </p>
 
-  <div class="gems border">
-    <ol>
-      <% @docs.each do |doc| %>
-        <%= render 'rubygem', rubygem: doc %>
-      <% end %>
-    </ol>
-  </div>
+    <div class="gems border">
+      <ol>
+        <% @docs.each do |doc| %>
+          <%= render 'rubygem', rubygem: doc %>
+        <% end %>
+      </ol>
+    </div>
+  <% end %>
 
   <pre><%#= @search.to_yaml %></pre>
 

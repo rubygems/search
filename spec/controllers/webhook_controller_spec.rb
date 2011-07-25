@@ -2,10 +2,8 @@ require 'spec_helper'
 
 describe WebhookController do
   
-  def post_gem
-    request.env["HTTP_ACCEPT"] = "application/json"
-    
-    request.env["RAW_POST_DATA"] = {
+  let :gem_payload do
+    {
       "name" => "rails",
       "info" => "Rails is a framework for building web-application using CGI, FCGI, mod_ruby,
                or WEBrick on top of either MySQL, PostgreSQL, SQLite, DB2, SQL Server, or 
@@ -31,15 +29,19 @@ describe WebhookController do
         ],
         "development" => [ ]
       }
-    }.to_json
-    
+    }
+  end
+  
+  def post_gem
+    request.env["HTTP_ACCEPT"] = "application/json"
+    request.env["RAW_POST_DATA"] = gem_payload.to_json
     post :gem
   end
 
   it "should receive a payload" do
     post_gem
     response.should be_success
-    Rubygem.search(:q => 'rails').first.name.should == "rails"
+    Rubygem.search(:q => 'rails').results.first.name.should == "rails"
   end
 
 end

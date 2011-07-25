@@ -24,10 +24,9 @@ class Rubygem < ActiveRecord::Base
   end
   
   def self.search(params={})
-    solr_response = solr_search do
+    solr_search do
       keywords params[:q]
     end
-    solr_response.results
   end
   
 end
