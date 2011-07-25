@@ -1,17 +1,21 @@
 class Rubygem < ActiveRecord::Base
   
-  attr_accessible :downloads, :version_downloads,
-                  :name, :authors, :info,
+  attr_accessible :name, :authors, :info, :version,
+                  :downloads, :version_downloads, :dependencies,
                   :bug_tracker_uri, :documentation_uri, :gem_uri, :homepage_uri,
                   :mailing_list_uri, :project_uri, :source_code_uri, :wiki_uri
   
   searchable do
-    integer :downloads
-    integer :version_downloads
-    
     text :name
     text :authors
     text :info
+
+    text :dependencies_runtime
+    text :dependencies_development
+
+    string :version
+    integer :downloads
+    integer :version_downloads
     
     string :bug_tracker_uri
     string :documentation_uri
@@ -27,6 +31,11 @@ class Rubygem < ActiveRecord::Base
     solr_search do
       keywords params[:q]
     end
+  end
+  
+  def dependencies=(json)
+    self.dependencies_runtime     = json['runtime'].collect{ |d| d['name'] }.join(' ')
+    self.dependencies_development = json['development'].collect{ |d| d['name'] }.join(' ')
   end
   
 end

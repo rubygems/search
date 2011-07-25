@@ -13,11 +13,14 @@
 ActiveRecord::Schema.define(:version => 20110723192421) do
 
   create_table "rubygems", :force => true do |t|
-    t.integer  "downloads"
-    t.integer  "version_downloads"
     t.string   "name"
     t.string   "authors"
     t.string   "info"
+    t.string   "version"
+    t.integer  "downloads"
+    t.integer  "version_downloads"
+    t.string   "dependencies_runtime"
+    t.string   "dependencies_development"
     t.string   "bug_tracker_uri"
     t.string   "documentation_uri"
     t.string   "gem_uri"

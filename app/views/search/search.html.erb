@@ -33,13 +33,9 @@
 
     <div class="gems border">
       <ol>
-        <% @docs.each do |doc| %>
-          <%= render 'rubygem', rubygem: doc %>
-        <% end %>
+        <%= render @docs %>
       </ol>
     </div>
   <% end %>
-
-  <pre><%#= @search.to_yaml %></pre>
 
 </div>

@@ -6,5 +6,19 @@
 #   cities = City.create([{ :name => 'Chicago' }, { :name => 'Copenhagen' }])
 #   Mayor.create(:name => 'Emanuel', :city => cities.first)
 
-Rails.root.join('tmp/rubygem-payloads.json').open.readlines.each do |payload|
+if Rails.env.development?
+  
+  Sunspot.remove_all
+  Sunspot.commit
+
+  Rails.root.join('tmp/seeds.json').open.readlines.each do |payload|
+    json = JSON.parse(payload)
+    begin
+      Rubygem.create(json)
+    rescue Exception => e
+      puts "Error - #{e.message}"
+      puts "\t#{json.inspect}"
+    end
+  end
+
 end
