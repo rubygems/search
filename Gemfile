@@ -1,6 +1,6 @@
 source 'http://rubygems.org'
 
-gem 'rails', :git => 'git://github.com/rails/rails.git', :branch => '3-1-stable'
+gem 'rails', '3.1.1'
 
 gem 'unicorn'
 
@@ -14,7 +14,7 @@ gem 'jquery-rails'
 gem 'pjax-rails' # just for the controller stuff for now
 
 # Everything else
-gem 'sunspot_rails', :git => 'git://github.com/nz/sunspot'
+gem 'sunspot_rails', '1.3.0.rc4'
 
 group :development, :test do
   gem 'foreman'
