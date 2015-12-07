@@ -1,4 +1,4 @@
-# [search.rubygems.org](http://search.rubygems.org/)
+# [search.rubygems.org](https://rubygems.org/search)
 
 Discover the gems you need.
 
